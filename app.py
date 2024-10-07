@@ -6,8 +6,8 @@ import os
 app = Flask(__name__)
 
 @app.route('/', methods=['GET'])
-def return_json():
-    return {"sucesss":"success"}
+def index():
+    return "Hello, World!"
 
 @app.route('/generate-SAA-receipt-pdf', methods=['GET'])
 def return_pdf():

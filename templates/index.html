@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Form Receipt</title>
+    <style>
+        @page {
+            size: landscape;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.4;
+            padding: 20px;
+            background-color: white;
+        }
+
+        /* Shantinath Receipt Styles */
+        .shantinath-receipt {
+            width: 800px;
+            min-height: 450px;
+            margin: 0 auto 20px;
+            background-color: white;
+            border: 2px solid #000;
+            padding: 20px;
+            box-sizing: border-box;
+            position: relative;
+        }
+        .shantinath-header {
+            margin-bottom: 20px;
+        }
+        .shantinath-company-name {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #ff0000;
+            text-align: center;
+        }
+        .shantinath-address {
+            font-size: 0.8em;
+            text-align: center;
+            border-bottom: 1px solid #000;
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+        }
+        .shantinath-receipt-details-top {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .shantinath-receipt-no, .shantinath-receipt-date {
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+        .shantinath-receipt-body {
+            margin-bottom: 20px;
+        }
+        .shantinath-receipt-row {
+            display: flex;
+            margin-bottom: 10px;
+        }
+        .shantinath-receipt-row span:first-child {
+            flex: 0 0 200px;
+        }
+        .shantinath-receipt-row span:last-child {
+            flex: 1;
+        }
+        .shantinath-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .shantinath-table th, .shantinath-table td {
+            border: 1px solid #000;
+            padding: 5px;
+            text-align: left;
+        }
+        .shantinath-amount {
+            font-weight: bold;
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            page-break-inside: avoid;
+        }
+        .shantinath-amount-label {
+            margin-right: 10px;
+            color: red;
+        }
+        .shantinath-amount-box {
+            border: 1px solid #000;
+            padding: 5px 10px;
+            width: 40%;
+        }
+        .shantinath-footer {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8em;
+            margin-top: 20px;
+            color: red;
+            font-weight: bold;
+            page-break-inside: avoid;
+        }
+
+        /* Loan Receipt Styles */
+        .loan-receipt {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #FFFF99;
+        }
+        .loan-receipt td {
+            padding: 2px;
+            vertical-align: top;
+        }
+        .loan-border-right {
+            border-right: 1px dashed #000;
+        }
+        .loan-border-bottom {
+            border-bottom: 1px solid #000;
+        }
+        .loan-text-center {
+            text-align: center;
+        }
+        .loan-text-bold {
+            font-weight: bold;
+        }
+        .loan-amount-box {
+            border: 1px solid #000;
+            display: inline-block;
+            padding: 2px 5px;
+        }
+        .loan-signature-line {
+            border-top: 1px solid #000;
+            padding-top: 2px;
+            text-align: center;
+            width: 30%;
+            display: inline-block;
+        }
+        .loan-signature-space {
+            height: 40px;
+        }
+        .loan-right-section {
+            position: relative;
+            height: 100%;
+        }
+        .loan-signature-section {
+            position: absolute;
+            bottom: 10px;
+            left: 0;
+            right: 0;
+        }
+
+        .bold {
+            font-weight: bold;
+        }
+        .page-break { 
+            page-break-after: always; 
+            clear: both;
+        }
+    </style>
+</head>
+<body>
+    <!-- Shantinath Receipt -->
+    <div class="shantinath-receipt">
+        <div class="shantinath-header">
+            <div class="shantinath-company-name">SHANTINATH AGRO AGENCIES</div>
+            <div class="shantinath-address">Opp.Grain Market,Arni Dist.Yavatmal-445103 (MS) Ph.:(07234) 266215, 267250</div>
+            <div class="shantinath-receipt-details-top">
+                <span class="shantinath-receipt-no bold">Rec.No. {{ receipt_no }}</span>
+                <span class="shantinath-receipt-date bold">Date: {{ receipt_date }}</span>
+            </div>
+        </div>
+        <div class="shantinath-receipt-body">
+            <div class="shantinath-receipt-row">
+                <span>Received with thanks from,</span>
+                <span>{{ received_from }}</span>
+            </div>
+            <div class="shantinath-receipt-row">
+                <span>the sum of Rs.</span>
+                <span>{{ amount_in_words }}</span>
+            </div>
+        </div>
+        <table class="shantinath-table">
+            <tr>
+                <th>By Cash/Draft/ Cheque</th>
+                <th>No.</th>
+                <th>Date</th>
+                <th>Drawn on Bank</th>
+            </tr>
+            <tr>
+                <td>{{ payment_method }}</td>
+                <td>{{ cheque_no }}</td>
+                <td>{{ cheque_date }}</td>
+                <td>{{ drawn_on_bank }}</td>
+            </tr>
+        </table>
+        <div>Against Bill No. & Date {{ bill_no }} - {{ bill_date }}</div>
+        <div class="shantinath-amount">
+            <span class="shantinath-amount-label bold">Rs.</span>
+            <div class="shantinath-amount-box">{{ amount }}</div>
+        </div>
+        <div class="shantinath-footer">
+            <div>Cheque subject to Realisation</div>
+            <div>For, Shantinath Agro Agencies</div>
+        </div>
+    </div>
+
+    <!-- Duplicate Shantinath Receipt -->
+    <div class="shantinath-receipt">
+        <div class="shantinath-header">
+            <div class="shantinath-company-name">SHANTINATH AGRO AGENCIES</div>
+            <div class="shantinath-address">Opp.Grain Market,Arni Dist.Yavatmal-445103 (MS) Ph.:(07234) 266215, 267250</div>
+            <div class="shantinath-receipt-details-top">
+                <span class="shantinath-receipt-no bold">Rec.No. {{ receipt_no }}</span>
+                <span class="shantinath-receipt-date bold">Date: {{ receipt_date }}</span>
+            </div>
+        </div>
+        <div class="shantinath-receipt-body">
+            <div class="shantinath-receipt-row">
+                <span>Received with thanks from,</span>
+                <span>{{ received_from }}</span>
+            </div>
+            <div class="shantinath-receipt-row">
+                <span>the sum of Rs.</span>
+                <span>{{ amount_in_words }}</span>
+            </div>
+        </div>
+        <table class="shantinath-table">
+            <tr>
+                <th>By Cash/Draft/ Cheque</th>
+                <th>No.</th>
+                <th>Date</th>
+                <th>Drawn on Bank</th>
+            </tr>
+            <tr>
+                <td>{{ payment_method }}</td>
+                <td>{{ cheque_no }}</td>
+                <td>{{ cheque_date }}</td>
+                <td>{{ drawn_on_bank }}</td>
+            </tr>
+        </table>
+        <div>Against Bill No. & Date {{ bill_no }} - {{ bill_date }}</div>
+        <div class="shantinath-amount">
+            <span class="shantinath-amount-label bold">Rs.</span>
+            <div class="shantinath-amount-box">{{ amount }}</div>
+        </div>
+        <div class="shantinath-footer">
+            <div>Cheque subject to Realisation</div>
+            <div>For, Shantinath Agro Agencies</div>
+        </div>
+    </div>
+
+    <!-- Loan Receipt -->
+    <table class="loan-receipt" border="1">
+        <tr>
+            <td class="loan-border-right" width="40%">
+                <table style="height: 100%;">
+                    <tr>
+                        <td>Account No: {{ loan_account_no }}</td>
+                        <td align="right">Date: {{ loan_date }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="loan-text-center loan-text-bold">The Yavatmal Urban Co-operative Bank Ltd., Yavatmal</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="loan-text-center">Branch Yavatmal</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">Rs. (in words): <span class="loan-border-bottom">{{ loan_amount_in_words }}</span></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">Name: <span class="loan-border-bottom">{{ loan_name }}</span></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">Hypothetication Loan / Cash Credit A/C</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">Rs: <span class="loan-amount-box">{{ loan_amount }}</span></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="height: 100%;"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div class="loan-signature-space"></div>
+                            <div style="display: flex; justify-content: space-between;">
+                                <span class="loan-signature-line">Cashier</span>
+                                <span class="loan-signature-line">Manager</span>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <td width="60%" class="loan-right-section">
+                <table style="height: 100%;">
+                    <tr>
+                        <td>Slip No: {{ loan_slip_no }}</td>
+                        <td>Account No: {{ loan_account_no }}</td>
+                        <td align="right">Date: {{ loan_date }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" class="loan-text-center loan-text-bold">The Yavatmal Urban Co-operative Bank Ltd., Yavatmal</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" class="loan-text-center">Branch Yavatmal</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">Rs. (in words): <span class="loan-border-bottom">{{ loan_amount_in_words }}</span></td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">Name: <span class="loan-border-bottom">{{ loan_name }}</span></td>
+                    </tr>
+                    <tr>
+                        <td colspan="3"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">Rs: <span class="loan-amount-box">{{ loan_amount }}</span></td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" style="height: 100%;">Hypothetication Loan / Cash Credit A/C</td>
+                    </tr>
+                </table>
+                <div class="loan-signature-section">
+                    <div class="loan-signature-space"></div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <span class="loan-signature-line">Cashier</span>
+                        <span class="loan-signature-line">Manager</span>
+                        <span class="loan-signature-line">Depositor's Signature</span>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

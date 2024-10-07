@@ -38,7 +38,7 @@ def generate_receipts():
         # Iterate over the list of receipts
         for index, item in enumerate(data["SAA_DATA"]):
             # Path to the external HTML file
-            html_file = r'templates\index.html'
+            html_file = os.path.join(os.getcwd(), 'templates', 'index.html')
 
             # Ensure the HTML file exists
             if not os.path.exists(html_file):

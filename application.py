@@ -3,7 +3,7 @@ import pdfkit
 import os
 
 # Path to wkhtmltopdf
-path_to_wkhtmltopdf = os.path.join(os.getcwd(), 'dependency', 'wkhtmltopdf.exe')
+path_to_wkhtmltopdf = os.path.join(os.getcwd(), 'dependency', 'wkhtmltox_0.12.6-1.focal_amd64.deb')
 config = pdfkit.configuration(wkhtmltopdf=path_to_wkhtmltopdf)
 
 options = {

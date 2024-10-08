@@ -3,7 +3,7 @@ import pdfkit
 import os
 
 # Use the relative path for wkhtmltopdf binary located in the 'bin' directory
-config = pdfkit.configuration(wkhtmltopdf=os.path.join(os.getcwd(), 'bin', 'wkhtmltopdf'))
+config = pdfkit.configuration(wkhtmltopdf=os.path.join(os.getcwd(), 'bin', 'wkhtmltopdf')) 
 
 options = {
     'page-size': 'A4',

@@ -1,3 +1,2 @@
-# build.sh
-echo "Installing wkhtmltopdf"
-apt-get update && apt-get install -y wkhtmltopdf
+sudo apt-get update
+sudo apt-get install -y wkhtmltopdf

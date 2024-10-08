@@ -1,10 +1,9 @@
-from flask import Flask, request, send_file
+from flask import request, send_file
 import pdfkit
 import os
 
-# Path to wkhtmltopdf
-path_to_wkhtmltopdf = '/usr/bin/wkhtmltopdf'
-config = pdfkit.configuration(wkhtmltopdf=path_to_wkhtmltopdf)
+# Use the relative path for wkhtmltopdf binary located in the 'bin' directory
+config = pdfkit.configuration(wkhtmltopdf=os.path.join(os.getcwd(), 'bin', 'wkhtmltopdf'))
 
 options = {
     'page-size': 'A4',
@@ -55,7 +54,7 @@ def generate_receipts():
             html_formatted = replace_placeholders(html_content, item)
 
             # Append the formatted HTML and a page break
-            combined_html +=  html_formatted
+            combined_html += html_formatted
             if index < len(data["SAA_DATA"]) - 1:
                 combined_html += '<div class="page-break"></div>'
 
